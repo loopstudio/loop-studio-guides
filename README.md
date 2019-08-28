@@ -1,9 +1,13 @@
 # LoopStudio Guides
 
-Here goes our logo, that redirects to our website
-(example: `shoulda-matchers` repo)
+[![loop-studio][logo]][website]
 
-And here, we need to add a short description
+[logo]: https://loopstud.io/wp-content/uploads/2019/05/logoblack.png
+[website]: https://loopstudio.dev
+
+This repo contains best practices, processes, examples and more standards that are followed by our organization members. The guide is separated into several sections of related guidelines.
+
+We made this public to inspire anyone looking for new quality standars.
 
 ## Languages
 * [Ruby](./ruby)
