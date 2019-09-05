@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "required": ["data"],
+    "properties": {
+      "data": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "email",
+              "created_at"
+            ],
+            "properties": {
+              "id": { "type": "integer" },
+              "name": { "type": "string" },
+              "email": { "type": "string" },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
