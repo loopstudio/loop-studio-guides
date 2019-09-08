@@ -10,4 +10,7 @@ group :test do
   gem 'faker'
 end
 
-support folder created to use json_matchers, for example: it { is_expected.to           match_response_schema('users/index') }
+Support folder created to use json_matchers, for example:
+```ruby
+ it { is_expected.to match_response_schema('users/index') }
+```closing backticks
