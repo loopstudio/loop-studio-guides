@@ -1,9 +1,9 @@
-gems used:
+Gems used
 
 group :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'json_matchers', '0.9.0'
+  gem 'json_matchers'
   gem 'rspec-json_expectations'
   gem 'byebug'
   gem 'factory_bot_rails'

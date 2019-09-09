@@ -8,8 +8,8 @@ describe 'POST api/v1/users/sign_in', type: :request do
   let(:password) { 'password' }
   let!(:user) do
     create(:user,
-          password: password,
-          password_confirmation: password)
+            password: password,
+            password_confirmation: password)
   end
 
   context 'when passing correct params' do
