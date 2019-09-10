@@ -13,35 +13,36 @@ RSpec.describe User, type: :model do
   describe 'validations' do
     it { is_expected.to validate_length_of(:name).is_at_least(2) }
 
-    context 'when the section does not have a group' do
-      subject(:section) { build(:reporting_iue_section) }
+    context 'when the user does not have a group' do
+      subject(:user) { build(:user) }
 
       it { is_expected.to validate_uniqueness_of(:name) }
     end
 
-    context 'when the section has a group' do
+    context 'when the user has a group' do
       let(:name) { 'Test' }
 
       context 'when the name exists but for a different group' do
-        subject(:valid_section) { build(:reporting_iue_section, :with_group, name: name) }
-        let!(:section) { create(:reporting_iue_section, :with_group, name: name) }
+        
+        subject(:valid_user) { build(:user, :with_group, name: name) }
+        let!(:user) { create(:user, :with_group, name: name) }
 
         it { is_expected.to be_valid }
       end
 
       context 'when the name exists for the same group' do
-        subject(:invalid_section) do
-          build(:reporting_iue_section, group: section.group, name: name)
+        subject(:invalid_user) do
+          build(:user, group: user.group, name: name)
         end
 
-        let!(:section) { create(:reporting_iue_section, :with_group, name: name) }
+        let!(:user) { create(:user, :with_group, name: name) }
 
         it { is_expected.to_not be_valid }
       end
 
-      context 'when there is a default section with the same name' do
-        subject(:invalid_section) { build(:reporting_iue_section, :with_group, name: name) }
-        let!(:section) { create(:reporting_iue_section, name: name) }
+      context 'when there is a default user with the same name' do
+        subject(:invalid_user) { build(:user, :with_group, name: name) }
+        let!(:user) { create(:user, name: name) }
 
         it { is_expected.to_not be_valid }
       end

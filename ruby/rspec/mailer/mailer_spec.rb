@@ -5,8 +5,9 @@ RSpec.describe Reporting::IUE::ReportMailer, type: :mailer do
     subject(:mailer_action) { described_class.report(report, destination_emails).deliver_now }
 
     let(:destination_emails) { ['some_email@test.com', 'second_email@test.com'] }
-    let!(:report) { create(:reporting_iue_report, company: company) }
-    let!(:company) { create(:business_company_datum) }
+    let(:company_name) { 'Test Company' }
+    let(:company) { create(:business_company_datum, name: company_name) }
+    let(:report) { create(:reporting_iue_report, company: company) }
     let!(:entries) do
       create_list(:reporting_iue_report_section, 2, report: report)
     end
@@ -14,7 +15,7 @@ RSpec.describe Reporting::IUE::ReportMailer, type: :mailer do
     before { Timecop.freeze(Time.local(2019, 9, 13)) }
 
     it 'assigns the correct subject' do
-      expect(mailer_action.subject).to eq("#{company.name} September Update")
+      expect(mailer_action.subject).to eq("#{company_name} September Update")
     end
 
     it 'sends it to the given emails' do

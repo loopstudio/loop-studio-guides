@@ -7,7 +7,7 @@ RSpec.describe 'API::V1::Users requests', type: :request do
   let!(:user) { create(:user, name: name, email: email) }
   let!(:current_user) { create(:user, admin: true) }
 
-  describe 'PATCH #show' do
+  describe 'PATCH #update' do
     context 'when the user is logged in' do
       context 'when the user exists' do
         subject(:patch_request) do
