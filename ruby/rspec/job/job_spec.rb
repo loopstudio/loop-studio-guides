@@ -11,8 +11,8 @@ RSpec.describe Logging::NotificationCreatorJob, type: :job do
     expect(described_class.new.queue_name).to eq('default')
   end
 
-  context 'when the user is activated' do 
-    before do 
+  context 'when the user is activated' do
+    before do
       user.activate!
     end
 

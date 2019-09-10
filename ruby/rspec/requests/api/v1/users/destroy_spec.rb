@@ -13,7 +13,7 @@ RSpec.describe 'API::V1::Users requests', type: :request do
         subject(:delete_request) do
           delete api_v1_users_path(user.id), headers: auth_headers(current_user)
         end
-        
+
         specify do
           delete_request
 

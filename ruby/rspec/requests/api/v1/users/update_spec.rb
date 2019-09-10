@@ -6,7 +6,7 @@ RSpec.describe 'API::V1::Users requests', type: :request do
   let(:email)  { 'john@test' }
   let!(:user) { create(:user, name: name, email: email) }
   let!(:current_user) { create(:user, admin: true) }
-  
+
   describe 'PATCH #show' do
     context 'when the user is logged in' do
       context 'when the user exists' do
@@ -21,7 +21,7 @@ RSpec.describe 'API::V1::Users requests', type: :request do
             email: 'newmail@test',
           }
         end
-        
+
         specify do
           patch_request
 
@@ -33,10 +33,10 @@ RSpec.describe 'API::V1::Users requests', type: :request do
 
         context 'when the new data is invalid' do
           before { new_attributes.merge!(email: 'invalid_mail') }
-  
+
           specify do
             post_request
-  
+
             expect(response).to have_http_status(:unprocessable_entity)
           end
         end
