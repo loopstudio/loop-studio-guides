@@ -142,7 +142,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
     const atom = {
       value: 1,
 
-      addValue(value) {
+      addValue: (value) => {
         return atom.value + value;
       },
     };
@@ -508,23 +508,16 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
 
 ## Functions
 
-  * Use named function expressions instead of function declarations.
-
-    > Why? Function declarations are hoisted, which means that it’s easy - too easy - to reference the function before it is defined in the file. This harms readability and maintainability. If you find that a function’s definition is large or complex enough that it is interfering with understanding the rest of the file, then perhaps it’s time to extract it to its own module! Don’t forget to explicitly name the expression, regardless of whether or not the name is inferred from the containing variable (which is often the case in modern browsers or when using compilers such as Babel). This eliminates any assumptions made about the Error’s call stack. ([Discussion](https://github.com/airbnb/javascript/issues/794))
+  * Use function declarations instead of named function expressions.
 
     ```javascript
     // bad
-    function foo() {
-      // ...
-    }
-
-    // bad
-    const foo = function () {
+    const short = function longUniqueMoreDescriptiveLexicalFoo() {
       // ...
     };
 
     // good
-    const short = function longUniqueMoreDescriptiveLexicalFoo() {
+    const foo = function () {
       // ...
     };
     ```
