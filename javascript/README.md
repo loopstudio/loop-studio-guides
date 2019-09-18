@@ -18,7 +18,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
   * [Properties](#properties)
   * [Variables](#variables)
 
-## [Types](#types)
+## Types
 
   * **Primitives**: When you access a primitive type you work directly on its value.
 
@@ -55,7 +55,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
     console.log(foo[0], bar[0]); // => 9, 9
     ```
 
-## [References](#references)
+## References
 
   * Use `const` for all of your references; avoid using `var`.
 
@@ -89,7 +89,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
     }
     ```
 
-## [Objects](#objects)
+## Objects
 
   * Use the literal syntax for object creation.
 
@@ -253,7 +253,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
     const { a, ...noA } = copy; // noA => { b: 2, c: 3 }
     ```
 
-## [Arrays](#arrays)
+## Arrays
 
   * Use the literal syntax for array creation.
 
@@ -330,15 +330,6 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
   * Use return statements in array method callbacks. It’s ok to omit the return if the function body consists of a single statement returning an expression without side effects.
 
     ```javascript
-    // good
-    [1, 2, 3].map((x) => {
-      const y = x + 1;
-      return x * y;
-    });
-
-    // good
-    [1, 2, 3].map((x) => x + 1);
-
     // bad - no returned value means `acc` becomes undefined after the first iteration
     [[0, 1], [2, 3], [4, 5]].reduce((acc, item, index) => {
       const flatten = acc.concat(item);
@@ -369,9 +360,18 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
 
       return false;
     });
+
+    // good
+    [1, 2, 3].map((x) => {
+      const y = x + 1;
+      return x * y;
+    });
+
+    // good
+    [1, 2, 3].map((x) => x + 1);
     ```
 
-## [Destructuring](#destructuring)
+## Destructuring
 
   * Use object destructuring when accessing and using multiple properties of an object.
 
