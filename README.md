@@ -15,7 +15,7 @@ We made this public to inspire anyone looking for new quality standars.
 
 ## Frameworks
 * [Ruby on Rails](./ruby/rails)
-* [React](./javascript)
+* [React](./javascript/react)
 
 ## Testing
 * [RSpec](./ruby/rspec)
