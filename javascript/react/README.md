@@ -1,4 +1,4 @@
-# Loop Studio React/JSX Style Guide
+# React/JSX Style Guide
 
 *A mostly reasonable approach to React and JSX*
 
