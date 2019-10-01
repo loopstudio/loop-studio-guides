@@ -368,7 +368,7 @@ We don’t recommend using indexes for keys if the order of items may change.
   )}
 
   // good
-  {todos.map(todo => (
+  {todos.map((todo) => (
     <Todo
       {...todo}
       key={todo.id}
@@ -385,6 +385,7 @@ We don’t recommend using indexes for keys if the order of items may change.
   function SFC({ foo, bar, children }) {
     return <div>{foo}{bar}{children}</div>;
   }
+  
   SFC.propTypes = {
     foo: PropTypes.number.isRequired,
     bar: PropTypes.string,
@@ -395,11 +396,13 @@ We don’t recommend using indexes for keys if the order of items may change.
   function SFC({ foo, bar, children }) {
     return <div>{foo}{bar}{children}</div>;
   }
+
   SFC.propTypes = {
     foo: PropTypes.number.isRequired,
     bar: PropTypes.string,
     children: PropTypes.node,
   };
+
   SFC.defaultProps = {
     bar: '',
     children: null,
@@ -418,7 +421,7 @@ We don’t recommend using indexes for keys if the order of items may change.
     return class Proxy extends React.Component {
       Proxy.propTypes = {
         text: PropTypes.string,
-        isLoading: PropTypes.bool
+        isLoading: PropTypes.bool,
       };
 
       render() {
@@ -434,7 +437,7 @@ We don’t recommend using indexes for keys if the order of items may change.
   export default function Foo {
     const props = {
       text: '',
-      isPublished: false
+      isPublished: false,
     }
 
     return (<div {...props} />);
