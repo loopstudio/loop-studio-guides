@@ -26,7 +26,7 @@ This Javascript style guide is heavily based on the [Airbnb ES6](https://github.
   * [Maximum Line Length](#maximum-line-length)
   * [Commas](#commas)
   * [Semicolons](#semicolons)
-  * [Type Casting & Coercion](#type-casting--coercion)
+  * [Type Casting & Coercion](#type-casting-&-coercion)
   * [Naming Conventions](#naming-conventions)
   * [Accessors](#accessors)
   * [Events](#events)
