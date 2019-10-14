@@ -1,48 +1,39 @@
 require 'rails_helper'
 include 'session_helper'
 
-RSpec.describe 'API::V1::Users requests', type: :request do
-  let!(:current_user) { create(:user, admin: true) }
-  let(:users) do
-    [
-      create(:user, id: 1, name: 'John', email: 'john@test'),
-      create(:user, id: 2, name: 'Alice', email: 'alice@test'),
-      create(:user, id: 3, name: 'Bob', email: 'bob@test')
-    ]
+RSpec.describe 'GET /api/v1/users', type: :request do
+  let!(:user) { create(:user, :admin) }
+  let(:expected_users) { create_list(:user, 3) }
+
+  context 'when the user is logged in' do
+    subject(:get_request) do
+      get api_v1_users_path, headers: auth_headers
+    end
+
+    specify do
+      get_request
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'includes the requested users' do
+      get_request
+
+      expected_users.each do |user|
+        expect(json[:users]).to include_json(
+          id: user.id,
+          name: user.name,
+          email: user.email
+        )
+      end
+    end
   end
 
-  describe 'GET #index' do
-    context 'when the user is logged in' do
-      subject(:get_request) do
-        get api_v1_users_path, headers: auth_headers(current_user)
-      end
-
-      specify do
-        get_request
-
-        expect(response).to have_http_status(:success)
-      end
-
-      it 'includes all the users' do
-        get_request
-
-        expected_response = {
-          data: [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 }
-          ]
-        }
-        expect(json['entities']['users']).to include_json(expected_response)
-      end
+  context 'when the user is not logged in' do
+    subject(:not_logged_in_request) do
+      get api_v1_users_path
     end
 
-    context 'when the user is not logged in' do
-      subject(:not_logged_in_request) do
-        get api_v1_users_path
-      end
-
-      include_examples 'not logged in examples'
-    end
+    include_examples 'not logged in examples'
   end
 end

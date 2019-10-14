@@ -1,34 +1,25 @@
 require 'rails_helper'
 
-RSpec.describe Reporting::IUE::ReportMailer, type: :mailer do
-  describe 'report' do
+RSpec.describe ReportMailer, type: :mailer do
+  describe '#report' do
     subject(:mailer_action) { described_class.report(report, destination_emails).deliver_now }
 
     let(:destination_emails) { ['some_email@test.com', 'second_email@test.com'] }
-    let(:company_name) { 'Test Company' }
-    let(:company) { create(:business_company_datum, name: company_name) }
-    let(:report) { create(:reporting_iue_report, company: company) }
-    let!(:entries) do
-      create_list(:reporting_iue_report_section, 2, report: report)
-    end
+    let(:company) { create(:company) }
+    let!(:report) { create(:report, company: company) }
 
     before { Timecop.freeze(Time.local(2019, 9, 13)) }
 
     it 'assigns the correct subject' do
-      expect(mailer_action.subject).to eq("#{company_name} September Update")
+      expect(mailer_action.subject).to eq("#{company.name} September Update")
     end
 
     it 'sends it to the given emails' do
       expect(mailer_action.to).to eq(destination_emails)
     end
 
-    it 'includes the entries texts in the body' do
-      body = mailer_action.body.encoded
-
-      report.entries.each do |entry|
-        expect(body).to match(entry.text)
-        expect(body).to match(entry.section.name)
-      end
+    it 'includes the report intro in the body' do
+      expect(mailer_action.body.encoded).to include(report.intro)
     end
   end
 end

@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject(:section) { create(:reporting_iue_section) }
+  subject(:user) { create(:user) }
 
   describe 'relations' do
-    specify do
-      is_expected.to have_many(:report_sections).class_name('Reporting::IUE::ReportSection')
-        .with_foreign_key('reporting_subject_id')
-    end
+    it { is_expected.to belong_to(:group) }
   end
 
   describe 'validations' do
@@ -19,30 +16,24 @@ RSpec.describe User, type: :model do
       it { is_expected.to validate_uniqueness_of(:name) }
     end
 
-    context 'when the user has a group' do
-      let(:name) { 'Test' }
+    describe 'email validation' do
+      let(:email) { 'test@email.com' }
 
-      context 'when the name exists but for a different group' do
-        
-        subject(:valid_user) { build(:user, :with_group, name: name) }
-        let!(:user) { create(:user, :with_group, name: name) }
+      context 'when the email exists but for a different group' do
+        subject(:valid_user) { build(:user, email: email) }
+        let!(:other_group_user_with_same_email) { create(:user, email: email) }
 
         it { is_expected.to be_valid }
       end
 
-      context 'when the name exists for the same group' do
+      context 'when the user email exists in the same group' do
         subject(:invalid_user) do
-          build(:user, group: user.group, name: name)
+          build(:user, group: group, email: email)
         end
 
-        let!(:user) { create(:user, :with_group, name: name) }
-
-        it { is_expected.to_not be_valid }
-      end
-
-      context 'when there is a default user with the same name' do
-        subject(:invalid_user) { build(:user, :with_group, name: name) }
-        let!(:user) { create(:user, name: name) }
+        let!(:same_group_user_with_same_email) do
+          create(:user, email: email, group: invalid_user.group)
+        end
 
         it { is_expected.to_not be_valid }
       end

@@ -4,7 +4,7 @@ RSpec.describe ApplicationCable::Connection, type: :channel do
   let(:user) { create(:user) }
 
   context 'with invalid token' do
-    it 'connects and sets the current user' do
+    it 'sets the current user' do
       connect '/cable', params: user.create_new_auth_token
 
       expect(connection.current_api_user.id).to eq(user.id)

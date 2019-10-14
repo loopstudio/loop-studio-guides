@@ -1,99 +1,69 @@
 require 'rails_helper'
 require 'addressable/uri'
 
-describe 'API::V1::Passwords requests', type: :request do
-  describe 'PATCH #update', type: :request do
-    subject(:put_request) do
-      put api_user_password_path, params: params, headers: headers, as: :json
-    end
+describe 'PUT /api/v1/auth/password', type: :request do
+  subject(:put_request) do
+    put api_user_password_path, params: params, headers: headers, as: :json
+  end
 
-    let(:user)            { create(:user) }
-    let!(:password_token) { user.send(:set_reset_password_token) }
+  let(:user)            { create(:user) }
+  let!(:password_token) { user.set_reset_password_token }
 
-    let(:new_password) { '123456789' }
-    let(:params) do
+  let(:new_password) { '123456789' }
+  let(:params) do
+    {
+      password: new_password,
+      password_confirmation: new_password
+    }
+  end
+
+  context 'when the email link has the redirection headers' do
+    let(:headers) do
+      params = {
+        reset_password_token: password_token,
+        redirect_url: ENV.fetch('PASSWORD_RESET_URL', 'https://localhost:3000/')
+      }
+      get edit_api_user_password_path, params: params, headers: auth_headers
+      edit_response_params = Addressable::URI.parse(response.header['Location']).query_values
       {
-        password: new_password,
-        password_confirmation: new_password
+        'access-token' => edit_response_params['token'],
+        'uid' => edit_response_params['uid'],
+        'client' => edit_response_params['client_id']
       }
     end
 
-    context 'when the email link has the redirection headers' do
-      let(:headers) do
-        params = {
-          reset_password_token: password_token,
-          redirect_url: ENV.fetch('PASSWORD_RESET_URL', 'https://localhost:3000/')
-        }
-        get edit_api_user_password_path, params: params, headers: auth_headers
-        edit_response_params = Addressable::URI.parse(response.header['Location']).query_values
-        {
-          'access-token' => edit_response_params['token'],
-          'uid' => edit_response_params['uid'],
-          'client' => edit_response_params['client_id']
-        }
+    context 'when passing valid params' do
+      it 'returns a successful response' do
+        put_request
+
+        expect(response).to be_successful
       end
 
-      context 'when passing valid params' do
-        it 'returns a successful response' do
+      it 'updates the user password' do
+        expect {
           put_request
-
-          expect(response).to be_successful
-        end
-
-        it 'updates the user password' do
-          expect {
-            put_request
-          }.to change { user.reload.encrypted_password }
-        end
-
-        it 'makes the new password valid' do
-          put_request
-
-          expect(user.reload.valid_password?(new_password)).to be(true)
-        end
+        }.to change { user.reload.encrypted_password }
       end
 
-      context 'when the password confirmation does not match' do
-        let(:params) do
-          {
-            password: new_password,
-            password_confirmation: 'wrongConfirmation'
-          }
-        end
+      it 'makes the new password valid' do
+        put_request
 
-        specify do
-          put_request
-
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-
-        it 'does not change the user password' do
-          expect {
-            put_request
-          }.to_not change(user.reload, :encrypted_password)
-        end
-
-        it 'does not make the new password valid' do
-          put_request
-
-          expect(user.reload.valid_password?(new_password)).to_not be_truthy
-        end
+        expect(user.reload.valid_password?(new_password)).to be(true)
       end
     end
 
-    context 'when the email link has invalid redirection headers' do
-      let(:headers) do
+    context 'when the password confirmation does not match' do
+      let(:params) do
         {
-          'access-token' => 'wrong token',
-          'uid' => user.uid,
-          'client' => 'some client'
+          password: new_password,
+          password_confirmation: 'wrongConfirmation'
         }
       end
 
       specify do
         put_request
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'does not change the user password' do
@@ -107,6 +77,34 @@ describe 'API::V1::Passwords requests', type: :request do
 
         expect(user.reload.valid_password?(new_password)).to_not be_truthy
       end
+    end
+  end
+
+  context 'when the email link has invalid redirection headers' do
+    let(:headers) do
+      {
+        'access-token' => 'wrong token',
+        'uid' => user.uid,
+        'client' => 'some client'
+      }
+    end
+
+    specify do
+      put_request
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'does not change the user password' do
+      expect {
+        put_request
+      }.to_not change(user.reload, :encrypted_password)
+    end
+
+    it 'does not make the new password valid' do
+      put_request
+
+      expect(user.reload.valid_password?(new_password)).to_not be_truthy
     end
   end
 end

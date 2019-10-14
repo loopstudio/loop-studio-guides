@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Logging::NotificationCreatorJob, type: :job do
+RSpec.describe NotificationCreatorJob, type: :job do
   include ActiveJob::TestHelper
 
   subject(:job) { described_class.perform_now(user) }
@@ -11,19 +11,10 @@ RSpec.describe Logging::NotificationCreatorJob, type: :job do
     expect(described_class.new.queue_name).to eq('default')
   end
 
-  context 'when the user is activated' do
-    before do
-      user.activate!
-    end
+  it 'broadcasts the notification to the recipient' do
+    expect(NotificationService).to receive(:new).with(user).and_call_original
+    expect_any_instance_of(NotificationService).to receive(:perform)
 
-    it 'broadcasts the notification to the recipient' do
-      expect(Logging::NotificationService).to receive(:new)
-        .with(user: user, object: object, action: action)
-        .and_call_original
-
-      expect_any_instance_of(Logging::NotificationService).to receive(:perform)
-
-      job
-    end
+    job
   end
 end
