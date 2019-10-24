@@ -5,13 +5,14 @@ RSpec.describe ReportMailer, type: :mailer do
     subject(:mailer_action) { described_class.report(report, destination_emails).deliver_now }
 
     let(:destination_emails) { ['some_email@test.com', 'second_email@test.com'] }
-    let(:company) { create(:company) }
+    let(:company_name) { 'a company' }
+    let(:company) { create(:company, name: company_name) }
     let!(:report) { create(:report, company: company) }
 
     before { Timecop.freeze(Time.local(2019, 9, 13)) }
 
     it 'assigns the correct subject' do
-      expect(mailer_action.subject).to eq("#{company.name} September Update")
+      expect(mailer_action.subject).to eq("#{company_name} September Update")
     end
 
     it 'sends it to the given emails' do

@@ -1,5 +1,6 @@
 # Gems Required:
 
+```ruby
 group :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
@@ -9,3 +10,4 @@ group :test do
   gem 'factory_bot_rails'
   gem 'faker'
 end
+```
