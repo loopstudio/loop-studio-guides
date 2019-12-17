@@ -1,5 +1,4 @@
 require 'rails_helper'
-include 'session_helper'
 
 RSpec.describe 'POST /api/v1/users', type: :request do
   let!(:current_user) { create(:user, admin: true) }

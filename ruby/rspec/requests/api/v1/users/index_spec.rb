@@ -1,5 +1,4 @@
 require 'rails_helper'
-include 'session_helper'
 
 RSpec.describe 'GET /api/v1/users', type: :request do
   let!(:user) { create(:user, :admin) }
