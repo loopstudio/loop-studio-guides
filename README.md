@@ -7,7 +7,7 @@
 
 This repo contains best practices, processes, examples and more standards that are followed by our organization members. The guide is separated into several sections of related guidelines.
 
-We made this public to inspire anyone looking for new quality standars.
+We made this public to inspire anyone looking for new quality standards.
 
 ## Languages
 * [Ruby](./ruby)
