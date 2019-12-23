@@ -45,4 +45,4 @@ _______________________________
 
 You should opt for **flexbox**.
 
-One thing to consider is the fact that grid is focus on the container and that is space is respected, while flexbox is content first, so this means that the container will adapt to what you put in it.
+One thing to consider is the fact that Grid is container-oriented and ensures the layout is preserved, while Flexbox is content-oriented, I.E: the container will adapt to what you put inside it.
