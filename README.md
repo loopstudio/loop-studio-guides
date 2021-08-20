@@ -1,9 +1,6 @@
 # LoopStudio Guides
 
-[![loop-studio][logo]][website]
-
-[logo]: https://loopstud.io/wp-content/uploads/2019/05/logoblack.png
-[website]: https://loopstudio.dev
+<a href="https://loopstudio.dev"><img src="https://loopstudio.dev/wp-content/uploads/2019/05/logoblack.png" alt="drawing" width="400px"/></a>
 
 This repo contains best practices, processes, examples and more standards that are followed by our organization members. The guide is separated into several sections of related guidelines.
 
